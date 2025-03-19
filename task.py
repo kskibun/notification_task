@@ -42,10 +42,13 @@ def update_task(task_id):
         if task['id'] == task_id:
             task.update(data)  # Update task attributes
             # Simulate sending a notification (this is currently synchronous)
-            # It is also possible to implement some timeout, but it must be checked how the counting of time impacts
-            # the performance
             notification_thread = threading.Thread(target=send_notification)
             notification_thread.start() # Simulate some work (e.g., sending email)
+            # It is also possible to implement some timeout, but it must be checked how the counting of time impacts
+            # the performance
+            # notification_thread.join(5)
+            # if notification_thread.is_alive():
+            #     jsonify({'error': 'Error while sending notification'}), 404
             print(f"Notification sent for task {task_id}")
             return jsonify(task), 200
     return jsonify({'error': 'Task not found'}), 404
